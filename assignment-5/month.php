@@ -49,16 +49,23 @@ $myMonth = $_POST['myMonth'];
 }
 echo $myMonth;//just to show variable comes from the form. I also tested (not shown) to make sure it is a number, and it is.
 
+$select = 'SELECT * FROM expenses WHERE MONTH(transaction_date)=?;';
+$prepared = $mysql->prepare($select);
+$prepared->bind_param("i", $myMonth);
+$prepared->execute();
+$expenses = $prepared->get_result(); 
+
+
 //use single quotes for protection
-$select = "SELECT item_cost, item_description, transaction_location, transaction_date FROM expenses WHERE MONTH(transaction_date)='$myMonth';";
+//$select = "SELECT item_cost, item_description, transaction_location, transaction_date FROM expenses WHERE MONTH(transaction_date)='$myMonth';";
 //This only worked when I used double quotes on the outside and single quotes around the variable. I don't see any way to just use single quotes here. I'm curious to know if I'm lacking security. I'm sure you'll tell me!!!
 
 //prepare the string as a query
-$prepared = $mysql->prepare($select);
+//$prepared = $mysql->prepare($select);
 //send query to be executed
-$prepared->execute();
+//$prepared->execute();
 //get rows of the table
-$expenses = $prepared->get_result();
+//$expenses = $prepared->get_result();
 //loop through the rows to fill the table 
 foreach ($expenses as $expense) {
 ?>
