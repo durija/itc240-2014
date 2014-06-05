@@ -3,6 +3,14 @@
 	font-family:Verdana, Geneva, sans-serif;
 	text-align:center;
 }
+.light	{
+	background:#CCCCCC;
+}
+
+.dark	{
+	background:#999999;
+}
+
 h1	{
 	font-size:1.5em;
 }
@@ -28,7 +36,6 @@ td	{
 	font-size:0.9em;
 	border:1px solid #bbb;
 	padding:4px;
-	background:#eee;
 }
 
 form	{

@@ -23,6 +23,13 @@ $libraryQuery = $mysql->prepare("SELECT * FROM library ORDER BY $option DESC;");
 $libraryQuery->execute();
 $libraries = $libraryQuery->get_result();
 
+$background = "dark";//default option for background
+if (isset($_COOKIE["background"]))	{
+		$background = $_COOKIE["background"];
+}
+
+setcookie("background", $background, time() + 60 * 5, "/");
+
 ?>
 <!doctype html>
 <html>
@@ -36,29 +43,31 @@ $libraries = $libraryQuery->get_result();
     <![endif]-->
 	</head>
 	<body>
-  	<h1>Brian Bailey, Assignment 7</h1>
-		<h2>Small Sample or Earthquake Information Resources</h2>
-    <p>Prefered Environment: <a href="#">Light</a> or <a href="#">Dark</a>
-    <p>Preferred Viewing: <a href="#">Cover</a> or <a href="#">Listing</a>
-    <table>
-    	<thead>
-    		<tr>
-        	<th><a href="?option=title">Sort by Title</a>
-          <th><a href="?option=author">Sort by Author</a>
-          <th>Cover Art
-			<tbody>
+  	<div>
+      <h1>Brian Bailey, Assignment 7</h1>
+      <h2>Small Sample of Earthquake Information Resources</h2>
+      <p>Prefered Environment: <a href="#">Light</a> or <a href="#">Dark</a>
+      <p>Preferred Viewing: <a href="#">Cover</a> or <a href="#">Listing</a>
+      <table class="<?= htmlentities($background) ?>">
+        <thead>
+          <tr>
+            <th><a href="?option=title">Sort by Title</a>
+            <th><a href="?option=author">Sort by Author</a>
+            <th>Cover Art
+        <tbody>
 <?php
 foreach ($libraries as $media)	{ ?>
-				<tr>
-					<td><?= htmlentities($media["title"]) ?>
-          <td><?= htmlentities($media["author"]) ?>
-          <td>
-						<img src="<?= htmlentities($media["cover"]) ?>"/>
-
+          <tr>
+            <td><?= htmlentities($media["title"]) ?>
+            <td><?= htmlentities($media["author"]) ?>
+            <td><img src="<?= htmlentities($media["cover"]) ?>"/>
 <?php	
 }
 ?>
-    </table>
-    <input type="submit" value="Checkout" class="button">
+    	</table>
+      <form action="index.php" method="POST">
+    		<input type="submit" value="Checkout" class="button">
+      </form>
+    </div>
 	</body>
 </html>
